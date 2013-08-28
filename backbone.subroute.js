@@ -34,6 +34,16 @@
             // Required to have Backbone set up routes
             Backbone.Router.prototype.constructor.call( this, options );
           
+            // If history has not started, there is no
+            // reason to trigger this subroute yet.
+            // Just bail after doing a postInitialize();
+            if(!Backbone.history.started){
+                if (this.postInitialize) {
+                    this.postInitialize(options);
+                }
+                return;
+            }
+
             // grab the full URL
             var hash;
             if (Backbone.history.fragment) {
